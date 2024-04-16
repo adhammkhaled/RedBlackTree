@@ -34,14 +34,22 @@ class red_black_tree:
             parent.left = new_node
         else:
             parent.right = new_node
+        print("inserting ", key)
         if new_node.parent==None:
             new_node.color='black'
+            print("root: ",self.root.data)
+            self.inorder_traversal()
+            print()
             return
         if new_node.parent.parent==None:
+            print("root: ",self.root.data)
+            self.inorder_traversal()
+            print()
             return
 
 
         self.insert_fixup(new_node)
+
 
         # print(new_node.data)
         # print(new_node.color)
@@ -53,24 +61,36 @@ class red_black_tree:
         if node.parent.parent == None:
             return
         uncle =  node.parent.parent.right  if node.parent == node.parent.parent.left else node.parent.parent.left
-        print(node.color,node.parent.color)
-        if uncle.color == 'red':
-            self.recolor_node(node.parent)
-            self.recolor_node(node.parent.parent)
-            self.recolor_node(uncle)
-            self.insert_fixup(node.parent.parent)
-            print("hey")
-        else:
+        if(node.parent.color=='red'):
+            if uncle.color == 'red':
+                self.recolor_node(node.parent)
+                self.recolor_node(node.parent.parent)
+                self.recolor_node(uncle)
+                self.insert_fixup(node.parent.parent)
+                print("hey")
+            else:
 
-                if self.on_the_same_line(node):
-                    self.rotate_node(node,node.parent.parent)
-                    self.recolor_node(node.parent)
-                    self.recolor_node(node.parent.parent)
-                else:
-                    self.rotate_node(node,node.parent)
+                    if self.on_the_same_line(node):
+                        print("this caseeee ",node.data)
+                        self.recolor_node(node.parent)
+                        self.recolor_node(node.parent.parent)
+                        self.rotate_node(node,node.parent.parent)
 
-        print(self.root.data)
-        self.root.color = 'black'
+                    else:
+                        self.rotate_node(node,node.parent)
+                        print("Imheree")
+                        if(node.left!=None and node.left.color=='red'):
+                            print("heeey")
+                            self.insert_fixup(node.left)
+                        elif(node.right!=None and node.right.color=='red'):
+                            print("heeeey")
+                            self.insert_fixup(node.right)
+
+
+            self.root.color = 'black'
+            print("root: ", self.root.data)
+            self.inorder_traversal()
+            print()
 
     def recolor_node(self,node):
         if(node == None):
@@ -162,7 +182,7 @@ if __name__ == "__main__":
     rbt = red_black_tree()
 
     # Insert some values into the tree
-    values = [1,2,3,4,5,6,7,8,9,10]
+    values = [13, 7, 5, 11, 19, 2, 16, 3, 4, 17, 8, 1, 10, 15, 12, 20, 6, 9, 14, 18]
     for value in values:
         rbt.insert(value)
     print(rbt.search(5))
