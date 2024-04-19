@@ -34,26 +34,15 @@ class red_black_tree:
             parent.left = new_node
         else:
             parent.right = new_node
-        print("inserting ", key)
         if new_node.parent==None:
             new_node.color='black'
-            print("root: ",self.root.data)
-            self.inorder_traversal()
-            print()
             return
         if new_node.parent.parent==None:
-            print("root: ",self.root.data)
-            self.inorder_traversal()
-            print()
             return
 
 
         self.insert_fixup(new_node)
 
-
-        # print(new_node.data)
-        # print(new_node.color)
-        # print()
 
     def insert_fixup(self, node):
         if node.parent == None:
@@ -67,30 +56,22 @@ class red_black_tree:
                 self.recolor_node(node.parent.parent)
                 self.recolor_node(uncle)
                 self.insert_fixup(node.parent.parent)
-                print("hey")
             else:
 
                     if self.on_the_same_line(node):
-                        print("this caseeee ",node.data)
                         self.recolor_node(node.parent)
                         self.recolor_node(node.parent.parent)
                         self.rotate_node(node,node.parent.parent)
 
                     else:
                         self.rotate_node(node,node.parent)
-                        print("Imheree")
                         if(node.left!=None and node.left.color=='red'):
-                            print("heeey")
                             self.insert_fixup(node.left)
                         elif(node.right!=None and node.right.color=='red'):
-                            print("heeeey")
                             self.insert_fixup(node.right)
 
 
             self.root.color = 'black'
-            print("root: ", self.root.data)
-            self.inorder_traversal()
-            print()
 
     def recolor_node(self,node):
         if(node == None):
@@ -170,11 +151,11 @@ class red_black_tree:
                 return 0
             return 1+_get_tree_size(node.left)+_get_tree_size(node.right)
         return _get_tree_size(self.root)
+
     def inorder_traversal(self):
         def _inorder_traversal(node):
             if node != self.nil:
                 _inorder_traversal(node.left)
-                print(node.data, node.color, end=" ")
                 _inorder_traversal(node.right)
         _inorder_traversal(self.root)
 
